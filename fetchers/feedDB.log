@@ -1,0 +1,6 @@
+{"level":"info","message":"database sucessfully updated","timestamp":"2016-08-11T19:32:35.507Z"}
+{"level":"info","message":"database sucessfully updated","timestamp":"2016-08-11T19:34:16.050Z"}
+{"level":"info","message":"database sucessfully updated","timestamp":"2016-08-12T12:37:17.229Z"}
+{"message":"getaddrinfo ENOTFOUND opendata.paris.fr opendata.paris.fr:80","stack":"Error: getaddrinfo ENOTFOUND opendata.paris.fr opendata.paris.fr:80\n    at errnoException (dns.js:26:10)\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)","code":"ENOTFOUND","errno":"ENOTFOUND","syscall":"getaddrinfo","hostname":"opendata.paris.fr","host":"opendata.paris.fr","port":80,"level":"error","timestamp":"2016-08-12T22:14:30.997Z"}
+{"level":"warn","message":"errors occured","timestamp":"2016-08-12T22:14:31.000Z"}
+{"level":"info","message":"database sucessfully updated","timestamp":"2016-08-12T22:23:42.026Z"}

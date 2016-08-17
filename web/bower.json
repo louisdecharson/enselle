@@ -1,0 +1,28 @@
+{
+  "name": "enSelle",
+  "description": "provide forecast of shared-bikes in Paris",
+  "main": "server.js",
+  "authors": [
+    "Louis de Charsonville <louisdecharson@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "bike",
+    "prediction",
+    "machinelearning"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "list.js": "^1.2.0",
+    "dygraphs": "^1.1.1"
+  }
+}

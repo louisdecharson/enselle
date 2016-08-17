@@ -1,0 +1,14 @@
+# Ignoring folder local
+local/
+
+# Ignoring npm-modules
+web/node_modules
+api/node_modules
+fetchers/node_modules
+
+# Ignoring environnement variables & other files
+.env
+setup.md
+setup.html
+readme.html
+startup.sh

@@ -1,0 +1,180 @@
+
+/*  Body */
+html{
+    height:100%;
+}
+
+body{
+    margin:0;
+    padding:0;
+    background-image: linear-gradient(#332A6C,#974D39);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    height:100%;
+    min-height:100%;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Open Sans Bold', sans-serif;
+}
+
+.mapBG{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-image: url('./../img/mapBG.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed !important;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    overflow: auto;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#map{
+    width: 100%;
+    height: 100%;
+}
+
+#wrappermap{
+    width:100%;
+}
+
+
+
+.menu-ui a {
+    background:rgba(0, 0, 0, .1);
+    position: relative;
+    top:10%; 
+    left:45%;
+    text-overflow:ellipsis;
+    font-family: 'Open Sans Bold', sans-serif;
+    font-size: 14px;
+    -webkit-appearance: none;
+    display:inline-block;
+    vertical-align: middle;
+    z-index:1;
+    margin-top: 5px;
+    margin-bottom:5px;
+    padding:15px;
+    border-radius: 15px;
+    text-align:center;
+    margin-left:-1px;
+    margin-right:-1px;
+}
+
+
+/* Div */
+#divHeader {
+    height:100px;
+}
+
+#divContent, .content {
+    min-height:100% !important;
+    height: auto !important; 
+    height: 100%;
+    margin: 0 auto -100px; /* allow for footer height */
+    vertical-align:bottom;
+}
+
+
+#divFooter, #divPush {
+    height: 100px; /* Push must be same height as footer */
+    clear : both;
+}
+
+
+/*  Font Family */
+h1, h2, h3, h4, h5, h6, p, label, .btn, a {
+    font-family:"Helvetica";
+}
+
+.dygraph-legend{
+    color:black !important;
+}
+
+.container {
+    height:100% !important;
+}
+
+.content {
+    padding-top: 10px;
+}
+.nav, .navbar, .navbar-default > a {
+    background: none !important;
+    color:white !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    text-shadow: none !important;
+}
+.navbar a {
+    color:white !important;
+    text-decoration: none !important;
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 600;
+    box-sizing: border-box;
+    outline: none !important;
+                    
+}
+
+a {
+    color:white;
+}
+a:hover {
+    color:#cccccc;
+    text-decoration:none;
+}
+
+.table-hover tr:hover{
+    background-color: rgba(51, 42, 108,0.5) !important;
+}
+
+.table-hover a:hover{
+    color:#dcafa3 !important;
+}
+
+#myStations {
+    padding-top: 40px;
+    padding-left: 20px; 
+    padding-right: 20px;
+
+}
+
+.nomStation {
+    margin-left: 15px;
+}
+
+.pageWrapper {
+    padding-top: 40px;
+    padding-left: 5%; 
+    padding-right: 5%;
+}
+
+#graphdiv {
+    background-color: rgba(255,255,255,0.3);
+}
+
+a.brand {color: #fff }
+.navbar-form .input-group {width: 70%;}.navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn {width: 1px;}
+.navbar-form .input-group .form-control {width: 100%;}
+
+.dernierVelo, .myAddress {
+    font-size: 18px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+
