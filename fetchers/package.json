@@ -6,7 +6,7 @@
     "dependencies":{
         "request": "2.74.x",
         "winston": "2.2.x",
-        "mongodb" "2.2.6",
+        "mongodb": "2.2.6",
         "assert": "1.4.1"
     }
 }
