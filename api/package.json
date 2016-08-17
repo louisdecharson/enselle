@@ -1,10 +1,11 @@
 {
-    "name":"enselleAPI",
-    "description":"enselle REST API",
-    "version":"0.0.1",
-    "private":true,
-    "dependencies":{
-        "express":"3.x",
-	"mongodb": "2.1.x"
-    }
+  "name": "enselleAPI",
+  "description": "enselle REST API",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "3.x",
+    "mongodb": "2.1.x"
+  }
 }
