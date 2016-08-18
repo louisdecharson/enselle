@@ -1,12 +1,14 @@
 var mongo = require('mongodb'),
     assert = require('assert');
 
+require('dotenv').config();
+
 var Server = mongo.Server,
     MongoClient = mongo.MongoClient,
     Db = mongo.Db,
     ObjectId = mongo.ObjectId;
 
-var url = 'mongodb://monvelib:monvelib2213@localhost:27017/velib';
+var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':27017/' + process.env.DB_NAME;
 
 exports.hello=function(req,res) {
     MongoClient.connect(url, function(err,db) {

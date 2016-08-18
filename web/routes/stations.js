@@ -10,8 +10,6 @@ var Server = mongo.Server,
     Db = mongo.Db,
     ObjectId = mongo.ObjectId;
 
-// var url = 'mongodb://monvelib:monvelib2213@localhost:27017/velib';
-
 var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':27017/' + process.env.DB_NAME;
 
 

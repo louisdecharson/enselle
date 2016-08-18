@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
     "express": "3.x",
     "mongodb": "2.1.x"
   }
