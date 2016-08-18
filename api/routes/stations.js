@@ -22,7 +22,7 @@ exports.hello=function(req,res) {
 exports.findAll= function(req,res) {
     MongoClient.connect(url, function(err,db){
         assert.equal(null,err);
-        db.collection('station').find({},{"coord":1, "name":1, "address":1 ,"id_station":1,"_id":0}).toArray(function(err,items){
+        db.collection('stations').find({},{"coord":1, "name":1, "address":1 ,"id_station":1,"_id":0}).toArray(function(err,items){
             assert.equal(err,null);
             if (items !=null){
                 res.send(items);
@@ -37,7 +37,7 @@ exports.findbyStationId = function(req, res) {
         assert.equal(null,err);
         var stationId = Number(req.params.station_id);
         console.log('Retrieving station: ' + stationId);
-        var cursor =  db.collection('station').find({"id_station":stationId}, {"velos.time":1, "velos.bikes":1, "velos.stands":1, "_id":0});
+        var cursor =  db.collection('velos').find({"id_station":stationId}, {"velos.time":1, "velos.bikes":1, "velos.stands":1, "_id":0});
         cursor.each(function(err,item){
             assert.equal(err,null);
             if (item != null){
