@@ -13,3 +13,4 @@ setup.html
 readme.html
 startup.sh
 /fetchers/feedDB.log
+/api/routes/index.md

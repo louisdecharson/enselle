@@ -1,4 +1,5 @@
 var express = require('express'),
+    path = require('path'),
     stations = require('./routes/stations'),
     weather = require('./routes/weather'),
     bodyParser = require('body-parser');
@@ -8,12 +9,16 @@ require('dotenv').config();
 var app = express();
 var router = express.Router();
 
+var port = process.env.Port || 3000;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
-
-app.get('/',stations.hello);
+app.use('/',function(req,res) {
+    res.sendfile(path.join(__dirname + '/routes/index.html'));
+});
+app.get('/connect',stations.hello);
 app.get('/stations', stations.findAll);
 app.get('/stations/:station_id', stations.findbyStationId);
 
@@ -21,5 +26,7 @@ app.get('/weather', weather.findAll);
 app.get('/weather/:time',weather.findbyTime);
 app.get('/fcst',weather.forecast);
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+
+app.listen(port,function() {
+    console.log('enSelle api is running on port ' + port);
+});
