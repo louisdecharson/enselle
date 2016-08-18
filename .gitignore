@@ -12,6 +12,6 @@ setup.md
 setup.html
 readme.html
 startup.sh
-/fetchers/feedDB.log
-/api/public/index.md
+fetchers/feedDB.log
+api/public/index.md
 
