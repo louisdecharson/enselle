@@ -1,7 +1,8 @@
 var mongo = require('mongodb'),
+    path = require('path'),
     assert = require('assert');
 
-require('dotenv').config();
+require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
 
 var Server = mongo.Server,
     MongoClient = mongo.MongoClient,

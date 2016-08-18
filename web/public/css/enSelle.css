@@ -105,7 +105,12 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a {
 }
 
 .content {
-    padding-top: 10px;
+    padding-top: 50px;
+}
+.jumbotron {
+    margin-top: 10%;
+    background-color: rgba(51, 42, 108,0.5) !important;
+    color: white;
 }
 .nav, .navbar, .navbar-default > a {
 /*    background: none !important;*/

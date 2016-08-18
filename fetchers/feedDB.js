@@ -2,10 +2,15 @@
 var request = require('request'),
     MongoClient = require('mongodb').MongoClient,
     assert = require('assert'),
+    dotenv = require('dotenv'),
+    path = require('path'),
     winston = require('winston');
 
-// Variables 
-var db = "mongodb://feedDB:feed2213@localhost:27017/velib";
+require('dotenv').config({path:path.join(__dirname,'/../config/.env')});
+
+// Variables
+var db = 'mongodb://' + process.env.DB_USER_FEED + ':' + process.env.DB_PASS_FEED + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT +  '/' + process.env.DB_NAME;
+
 var url = "http://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&rows=1240&facet=banking&facet=bonus&facet=status&facet=contract_name";
 
 // Log

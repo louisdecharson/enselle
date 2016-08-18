@@ -1,17 +1,17 @@
 // Copyright (C) 2016 Louis de Charsonville
 
 var mongo = require('mongodb'),
+    path = require('path'),
     assert = require('assert');
 
-require('dotenv').config();
+require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
 
 var Server = mongo.Server,
     MongoClient = mongo.MongoClient,
     Db = mongo.Db,
     ObjectId = mongo.ObjectId;
 
-var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':27017/' + process.env.DB_NAME;
-
+var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT +  '/' + process.env.DB_NAME;
 
 // for HTML
 // ====================

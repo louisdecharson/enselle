@@ -8,7 +8,7 @@ var express = require('express'),
     favicon = require('serve-favicon');
 
 
-require('dotenv').config();
+require('dotenv').config({path:path.join(__dirname,'/../config/.env')});
 
 
 var app = express();

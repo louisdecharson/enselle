@@ -4,7 +4,7 @@ var express = require('express'),
     weather = require('./routes/weather'),
     bodyParser = require('body-parser');
 
-require('dotenv').config();
+require('dotenv').config({path:'./../config/.env'});
 
 var app = express();
 var router = express.Router();
