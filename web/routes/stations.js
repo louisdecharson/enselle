@@ -22,7 +22,8 @@ var meta = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org
     jsforListJS = "<script>var options = {valueNames: ['name', 'address'], searchClass: 'form-control'}; var dataList = new List('myStations',options);</script>",
     enSelleCSS = '<link rel="stylesheet" type=text/css href="./../css/enSelle.css">',
     dyGraph = '<script src="./../bower_components/dygraphs/dygraph-combined.js"></script>',
-    navbar = '<div class="mapBG"> <nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/"><span><img src="./../img/logo.png" alt="logo" width="30"> enSelle</a><span> </div> <div class="navbar-collapse collapse" id="navbar"> <ul class="nav navbar-nav navbar-left"> <li><a class="navbar" href="/stations/">Stations</a></li> <li><a class="navbar" href="/map/">Carte</a></li></ul></div></div></nav>';
+    mapBG = '<div class="mapBG">',
+    navbar = '<nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/"><span><img src="./../img/logo.png" alt="logo" width="30"> enSelle</a><span> </div> <div class="navbar-collapse collapse" id="navbar"> <ul class="nav navbar-nav navbar-left"> <li><a class="navbar" href="/about.html">About</a></li> <li><a class="navbar" href="/stations/">Stations</a></li> <li><a class="navbar" href="/map.html">Carte</a></li> </ul> <ul class="nav navbar-nav navbar-right"> <li><a class="navbar" href="mailto:hello@enselle.io?Subject=Hi%20enSelle">Contact</a></li><li><a class="navbar" href="http://api.enselle.io">API</a></li> </ul> </div></div></nav>';
 // ==================
 
 
@@ -45,7 +46,7 @@ function makeTable(items) {
         tbody += '<td class="address">' + item.stands + '</td>';
         tbody += '</tr>';
     });
-    var myHTML = meta + title + jQuery + bootstrap + enSelleCSS + '</head><body>' + navbar + body  + '<table class="table table-condensed table-hover">' + '<thead>'  + '<tr>' + theader + '</tr>' + '</thead>' + '<tbody class="list">' + tbody + '</tbody>'  +'</table></div>' + listJS  + jsforListJS + '</div></body></html>';
+    var myHTML = meta + title + jQuery + bootstrap + enSelleCSS + '</head><body>'  + mapBG + navbar + body  + '<table class="table table-condensed table-hover">' + '<thead>'  + '<tr>' + theader + '</tr>' + '</thead>' + '<tbody class="list">' + tbody + '</tbody>'  +'</table></div>' + listJS  + jsforListJS + '</div></body></html>';
 
     return myHTML;
 };
@@ -73,7 +74,7 @@ function pageStation(maStation,lastItem,arr24h,stats) {
     var dernierVelos = '<div class="dernierVelo">Bikes: ' + lastItem.bikes + ' Stands: ' + lastItem.stands + '</div>';
     var monAdresse = '<div class="myAddress">Address : ' + maStation.address  + '</div>';
 
-    var myHTML = meta + title + jQuery + bootstrap + dyGraph + enSelleCSS + '</head><body>'  + navbar +  pageWrapper + nomStation  + rowContainer + colgauche + dernierVelos + monGraph + '</div>' + coldroite  + monAdresse + myGMap +  '</div></div></div>' + jsforGraph +'</body></html>';
+    var myHTML = meta + title + jQuery + bootstrap + dyGraph + enSelleCSS + '</head><body>' + mapBG  + navbar +  pageWrapper + nomStation  + rowContainer + colgauche + dernierVelos + monGraph + '</div>' + coldroite  + monAdresse + myGMap +  '</div></div></div>' + jsforGraph +'</body></html>';
     return myHTML;
 }
 
