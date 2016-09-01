@@ -10,8 +10,8 @@ npm install
 echo "Fin de la mise à jour des packages"
 
 cd ../web
-sudo pm2 restart server.js
+sudo pm2 start server.js
 cd ../api
-sudo pm2 restart server.js
+sudo pm2 start server.js
 echo "Scripts relancés"
 echo "Fin"
