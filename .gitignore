@@ -15,3 +15,5 @@ startup.sh
 fetchers/feedDB.log
 api/public/index.md
 
+config/
+copySSH.sh
