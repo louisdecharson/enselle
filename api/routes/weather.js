@@ -19,8 +19,10 @@ exports.findAll= function(req,res) {
             assert.equal(err,null);
             if (items !=null){
                 res.send(items);
+                db.close();
             } else {
                 res.send("ERROR - THE DATABASE IS EMPTY");
+                db.close();
             };
         });
     });
@@ -37,8 +39,10 @@ exports.findbyTime = function(req, res) {
             assert.equal(err,null);
             if (item != null){
                 res.send(item);
+                db.close();
             } else {
                 res.send("ERROR - CANNOT FIND ITEM");
+                db.close();
             }
         });
     });

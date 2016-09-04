@@ -27,6 +27,7 @@ exports.findAll= function(req,res) {
             assert.equal(err,null);
             if (items !=null){
                 res.send(items);
+                db.close();
             };
         });
     });
@@ -41,6 +42,7 @@ exports.findbyStationId = function(req, res) {
             assert.equal(err,null);
             if (items != null){
                 res.send(items);
+                db.close();
             };
         });
     });

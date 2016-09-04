@@ -90,6 +90,7 @@ exports.getListe = function(req,res) {
             assert.equal(err,null);
             if (items != null) {
                 res.send(makeTable(items));
+                db.close();
             }
         });
     });
@@ -117,6 +118,7 @@ exports.getStation = function(req,res) {
             assert.equal(err,null);
             var maStation = doc;
             var cursor = db.collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0});
+
             cursor.each(function(err,item) {
                 assert.equal(err,null);
                 if (item != null && item.time[3] === heure) {
@@ -130,6 +132,7 @@ exports.getStation = function(req,res) {
                 if (item == null) {
                     var stats = {"bikes_moy": bikes_moy, stands_moy: stands_moy};
                     res.send(pageStation(maStation,lastItem,arr24h,stats));
+                    db.close();
                 } else {
                     lastItem = item; // dernier vélo pour affichage.
                 }
