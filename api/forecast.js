@@ -1,12 +1,15 @@
 // Packages
 var request = require('request');
-var fs = require('fs');
+var fs = require('fs'),
+    path = require('path');
+
+require('dotenv').config({path:path.join(__dirname,'/../config/.env')});
 
 
-var apiKey = "078fb4a74207a5b2c93e6756015addd7";
+var apiKey = process.env.FORECAST_APIKEY;
 var url = "https://api.forecast.io/forecast/"+apiKey+"/";
 
-var coord1001=[48.8570916352, 2.34174799516];
+var coord=[48.8624302348,2.33852013115]; // coordonées de la station 1013
 
 function writeJSON(urlAPI,pos){
     urlAPI=urlAPI+String(pos[0])+","+String(pos[1]);
@@ -30,7 +33,7 @@ function writeJSON(urlAPI,pos){
     });
 }
 
-writeJSON(url,coord1001);
+writeJSON(url,coord);
 
 fs.readFile("fcst.json",'utf-8',function(err,data){
     if (err) {

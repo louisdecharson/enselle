@@ -14,6 +14,7 @@ readme.html
 startup.sh
 fetchers/feedDB.log
 api/public/index.md
+api/fcst.json
 
 config/
 copySSH.sh

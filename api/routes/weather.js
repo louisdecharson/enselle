@@ -1,5 +1,6 @@
 var mongo = require('mongodb'),
     assert = require('assert'),
+    path = require('path'),
     fs = require('fs');
 
 var Server = mongo.Server,
@@ -7,7 +8,9 @@ var Server = mongo.Server,
     Db = mongo.Db,
     ObjectId = mongo.ObjectId;
 
-var url = 'mongodb://node:node@localhost:27017/weather';
+require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
+
+var url = "mongodb://"+  process.env.DB_WEATHER_USER + ':' + process.env.DB_WEATHER_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_WEATHER;
 
 exports.findAll= function(req,res) {
     MongoClient.connect(url, function(err,db){
@@ -16,6 +19,8 @@ exports.findAll= function(req,res) {
             assert.equal(err,null);
             if (items !=null){
                 res.send(items);
+            } else {
+                res.send("ERROR - THE DATABASE IS EMPTY");
             };
         });
     });
@@ -32,7 +37,9 @@ exports.findbyTime = function(req, res) {
             assert.equal(err,null);
             if (item != null){
                 res.send(item);
-            };
+            } else {
+                res.send("ERROR - CANNOT FIND ITEM");
+            }
         });
     });
 };
