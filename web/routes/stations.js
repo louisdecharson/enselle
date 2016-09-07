@@ -61,6 +61,12 @@ function pageStation(maStation,lastItem,arr24h,stats) {
     
     // On remplit le vecteur pour le graph avec date, vélos, stands.
     var jsforGraph = '<script type="text/javascript"> g = new Dygraph(document.getElementById("graphdiv"),[';
+    arr24h.sort(function(a,b) {
+        var c = new Date(a.timestamp),
+            d = new Date(b.timestamp);
+        return c-d
+    });
+        
     arr24h.forEach(function(it) {
         jsforGraph += '[new Date(' + it.timestamp + '),' + [it.bikes,it.stands].toString() + '],';
     });
