@@ -139,7 +139,7 @@ exports.getStation = function(req,res) {
                 }
                 // Vélos moyens pour l'heure en cours
                 if (item == null) {
-                    var stats = {"bikes_moy": bikes_moy/compt, stands_moy: stands_moy/compt};
+                    var stats = {"bikes_moy": Math.floor(bikes_moy/compt), stands_moy: Math.floor(stands_moy/compt)};
                     res.send(pageStation(maStation,lastItem,arr24h,stats));
                     db.close();
                 } else {
