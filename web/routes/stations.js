@@ -77,7 +77,7 @@ function pageStation(maStation,lastItem,arr24h,stats) {
         coldroite = '<div class="col-sm-6">',
         colgauche = '<div class="col-sm-6">';
 
-    var dernierVelos = '<div class="dernierVelo">Bikes: ' + lastItem.bikes + '(' + stats.bikes_moy  +')'  + ' Stands: ' + lastItem.stands + '(' + stats.stands_moy  +')' + '</div>';
+    var dernierVelos = '<div class="dernierVelo">Bikes: ' + lastItem.bikes + ' (' + stats.bikes_moy  +')'  + ' Stands: ' + lastItem.stands + ' (' + stats.stands_moy  +')' + '</div>';
     var monAdresse = '<div class="myAddress">Address : ' + maStation.address  + '</div>';
 
     var myHTML = meta + title + jQuery + bootstrap + dyGraph + enSelleCSS + '</head><body>' + mapBG  + navbar +  pageWrapper + nomStation  + rowContainer + colgauche + dernierVelos + monGraph + '</div>' + coldroite  + monAdresse + myGMap +  '</div></div></div>' + jsforGraph +'</body></html>';
@@ -115,6 +115,7 @@ exports.getStation = function(req,res) {
         stands_moy = 0,
         bikes_lastHour = 0,
         stands_lastHour = 0,
+        compt = 0,
         arr24h = [],
         lastItem = '';
     MongoClient.connect(url, function(err,db) {
@@ -130,6 +131,7 @@ exports.getStation = function(req,res) {
                 if (item != null && item.time[3] === heure) {
                     bikes_moy += item.bikes,
                     stands_moy += item.stands;
+                    compt ++;
                 }
                 // On récupère les vélos des dernières 24h
                 if (item != null && item.timestamp > timestamp_hier ) {
@@ -137,7 +139,7 @@ exports.getStation = function(req,res) {
                 }
                 // Vélos moyens pour l'heure en cours
                 if (item == null) {
-                    var stats = {"bikes_moy": bikes_moy, stands_moy: stands_moy};
+                    var stats = {"bikes_moy": bikes_moy/compt, stands_moy: stands_moy/compt};
                     res.send(pageStation(maStation,lastItem,arr24h,stats));
                     db.close();
                 } else {
