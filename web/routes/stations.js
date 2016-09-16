@@ -64,7 +64,7 @@ function pageStation(maStation,lastItem,arr24h,stats) {
     arr24h.sort(function(a,b) {
         var c = new Date(a.timestamp),
             d = new Date(b.timestamp);
-        return c-d
+        return c-d;
     });
         
     arr24h.forEach(function(it) {

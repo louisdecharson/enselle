@@ -26,7 +26,11 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 // Favicon
 // app.use(favicon(path.join(__dirname,'public','favicon.ico')));
 
-
+// NO ROBOTS
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
 
 // ROUTES
 app.get('/stations', stations.getListe);

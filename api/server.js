@@ -15,6 +15,12 @@ var port = process.env.Port || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
+// NO ROBOTS
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
+
 app.use('/',express.static(__dirname + '/public/'));
 app.get('/connect',stations.hello);
 app.get('/stations', stations.findAll);
