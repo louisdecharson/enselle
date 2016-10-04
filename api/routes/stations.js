@@ -9,42 +9,36 @@ var Server = mongo.Server,
     Db = mongo.Db,
     ObjectId = mongo.ObjectId;
 
-var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':27017/' + process.env.DB_NAME;
-
+var db = require('../db');
+        
 exports.hello=function(req,res) {
-    MongoClient.connect(url, function(err,db) {
-        assert.equal(null,err);
+    if (db.get()) {
         res.send({error: "false", message:"Successfuly connected to enselle RESTful API"});
-        db.close();
-    });
+    }  else {
+        res.send({error: "true", message:"Cannot connect to database"});
+    }
 };
 
                         
 exports.findAll= function(req,res) {
-    MongoClient.connect(url, function(err,db){
-        assert.equal(null,err);
-        db.collection('stations').find({},{"coord":1, "name":1, "address":1 ,"id_station":1,"bikes":1, "stands":1,"_id":0}).toArray(function(err,items){
-            assert.equal(err,null);
-            if (items !=null){
-                res.send(items);
-                db.close();
-            };
-        });
+    db.get().collection('stations').find({},{"coord":1, "name":1, "address":1 ,"id_station":1,"bikes":1, "stands":1,"_id":0}).toArray(function(err,items){
+        assert.equal(err,null);
+        if (items !=null){
+            res.send(items);
+            db.close();
+        };
     });
 };
        
 
 exports.findbyStationId = function(req, res) {
-    MongoClient.connect(url, function(err,db) {
-        assert.equal(null,err);
-        var stationId = Number(req.params.station_id);
-        var cursor =  db.collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":0}).toArray(function(err,items){
-            assert.equal(err,null);
-            if (items != null){
-                res.send(items);
-                db.close();
-            };
-        });
+    var stationId = Number(req.params.station_id);
+    var cursor =  db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":0}).toArray(function(err,items){
+        assert.equal(err,null);
+        if (items != null){
+            res.send(items);
+            db.close();
+        };
     });
 };
 
