@@ -17,7 +17,7 @@ var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' +
 
 
 // Initialize connection once
-var db = require('.db');
+var db = require('./db');
 db.connect(url,function(err,database) {
     if(err) throw err;
     
