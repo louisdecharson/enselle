@@ -124,7 +124,7 @@ exports.getStation = function(req,res) {
         db.collection('stations').findOne({"id_station": stationId}, function(err,doc) {
             assert.equal(err,null);
             var maStation = doc;
-            var cursor = db.collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0});
+            var cursor = db.collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0}).limit(2000);
 
             cursor.each(function(err,item) {
                 assert.equal(err,null);
