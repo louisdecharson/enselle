@@ -11,7 +11,7 @@ echo "Fin de la mise à jour des packages"
 
 
 cd ../web
-sudo pm2 describe server.js > /dev/null
+sudo pm2 describe server > /dev/null
 RUNNING=$?
 if [ "${RUNNING}" -ne 0 ]; then
   pm2 start server.js
@@ -20,7 +20,7 @@ else
 fi;
 
 cd ../api
-sudo pm2 describe server.js > /dev/null
+sudo pm2 describe server > /dev/null
 RUNNING=$?
 if [ "${RUNNING}" -ne 0 ]; then
   pm2 start server.js
