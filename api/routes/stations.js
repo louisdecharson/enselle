@@ -32,7 +32,7 @@ exports.findAll= function(req,res) {
 
 exports.findbyStationId = function(req, res) {
     var stationId = Number(req.params.station_id);
-    var cursor =  db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":0}).sort({_id:-1}).limit(2000).toArray(function(err,items){
+    var cursor =  db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":0}).limit(2000).toArray(function(err,items){
         assert.equal(err,null);
         if (items != null){
             res.send(items);
