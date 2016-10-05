@@ -6,12 +6,7 @@ var mongo = require('mongodb'),
 
 require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
 
-var Server = mongo.Server,
-    MongoClient = mongo.MongoClient,
-    Db = mongo.Db,
-    ObjectId = mongo.ObjectId;
-
-var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT +  '/' + process.env.DB_NAME;
+var db = require('../db');
 
 // for HTML
 // ====================
@@ -90,15 +85,11 @@ function pageStation(maStation,lastItem,arr24h,stats) {
 
 
 exports.getListe = function(req,res) {
-    MongoClient.connect(url, function(err,db) {
-        assert.equal(null,err);
-        db.collection('stations').find({},{"name":1, "address":1, "id_station":1, "bikes":1, "stands":1}).toArray(function(err,items) {
-            assert.equal(err,null);
-            if (items != null) {
-                res.send(makeTable(items));
-                db.close();
-            }
-        });
+    db.get().collection('stations').find({},{"name":1, "address":1, "id_station":1, "bikes":1, "stands":1}).toArray(function(err,items) {
+        assert.equal(err,null);
+        if (items != null) {
+            res.send(makeTable(items));
+        }
     });
 };
 
@@ -118,34 +109,31 @@ exports.getStation = function(req,res) {
         compt = 0,
         arr24h = [],
         lastItem = '';
-    MongoClient.connect(url, function(err,db) {
-        assert.equal(null,err);
-        var stationId = Number(req.params.station);
-        db.collection('stations').findOne({"id_station": stationId}, function(err,doc) {
-            assert.equal(err,null);
-            var maStation = doc;
-            var cursor = db.collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0}).sort({$natural:-1}).limit(288);
 
-            cursor.each(function(err,item) {
-                assert.equal(err,null);
-                if (item != null && item.time[3] === heure) {
-                    bikes_moy += item.bikes,
-                    stands_moy += item.stands;
-                    compt ++;
-                }
-                // On récupère les vélos des dernières 24h
-                if (item != null && item.timestamp > timestamp_hier ) {
-                    arr24h.push(item);
-                }
-                // Vélos moyens pour l'heure en cours
-                if (item == null) {
-                    var stats = {"bikes_moy": Math.floor(bikes_moy/compt), stands_moy: Math.floor(stands_moy/compt)};
-                    res.send(pageStation(maStation,lastItem,arr24h,stats));
-                    db.close();
-                } else {
-                    lastItem = item; // dernier vélo pour affichage.
-                }
-            });
+    var stationId = Number(req.params.station);
+    db.get().collection('stations').findOne({"id_station": stationId}, function(err,doc) {
+        assert.equal(err,null);
+        var maStation = doc;
+        var cursor = db.get().collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0}).sort({$natural:-1}).limit(288);
+
+        cursor.each(function(err,item) {
+            assert.equal(err,null);
+            if (item != null && item.time[3] === heure) {
+                bikes_moy += item.bikes,
+                stands_moy += item.stands;
+                compt ++;
+            }
+            // On récupère les vélos des dernières 24h
+            if (item != null && item.timestamp > timestamp_hier ) {
+                arr24h.push(item);
+            }
+            // Vélos moyens pour l'heure en cours
+            if (item == null) {
+                var stats = {"bikes_moy": Math.floor(bikes_moy/compt), stands_moy: Math.floor(stands_moy/compt)};
+                res.send(pageStation(maStation,lastItem,arr24h,stats));
+            } else {
+                lastItem = item; // dernier vélo pour affichage.
+            }
         });
     });
 };
