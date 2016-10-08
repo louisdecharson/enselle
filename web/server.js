@@ -27,6 +27,8 @@ app.set('view engine', 'pug');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use('/',express.static(__dirname + '/public/'));
+
+// app.use('/',express.static(__dirname + '/public/'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 // Favicon
@@ -39,12 +41,11 @@ app.get('/robots.txt', function (req, res) {
 });
 
 // ROUTES
+app.get('/', function(req,res) {res.render('index');});
 app.get('/stations', stations.getListe);
 app.get('/station/:station', stations.getStation);
 app.get('/map', map.getMap);
-
-
-
+app.get('/about', function(req,res) {res.render('about');});
 
 
 

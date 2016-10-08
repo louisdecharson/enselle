@@ -10,7 +10,7 @@ body{
     background-image: linear-gradient(#332A6C,#974D39);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: white;
+    color: white !important;
     height:100%;
     min-height:100%;
     width: 100%;
@@ -36,6 +36,7 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    
 }
 
 #map{
@@ -140,11 +141,11 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a {
 }
 
 a {
-    color:white;
+    color:white !important;
 }
 a:hover {
-    color:#cccccc;
-    text-decoration:none;
+    color:#cccccc !important;
+    text-decoration:none !important;
 }
 
 .table-hover tr:hover{
@@ -155,10 +156,16 @@ a:hover {
     color:#dcafa3 !important;
 }
 
+.jumbotron a {
+    text-decoration: underline !important;
+}
+
 #myStations {
-    padding-top: 40px;
-    padding-left: 5%; 
-    padding-right: 5%;
+    padding-top: 60px !important;
+    padding-left: 7% !important; 
+    padding-right: 7% !important;
+    z-index:1 !important;
+    text-color: #cccccc !important;
 
 }
 
@@ -176,7 +183,7 @@ a:hover {
     background-color: rgba(255,255,255,0.3);
 }
 
-a.brand {color: #fff }
+a.brand {color: #fff !important}
 .navbar-form .input-group {width: 70%;}.navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn {width: 1px;}
 .navbar-form .input-group .form-control {width: 100%;}
 

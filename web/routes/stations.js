@@ -18,7 +18,7 @@ var meta = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org
     enSelleCSS = '<link rel="stylesheet" type=text/css href="./../css/enSelle.css">',
     dyGraph = '<script src="./../bower_components/dygraphs/dygraph-combined.js"></script>',
     mapBG = '<div class="mapBG">',
-    navbar = '<nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/"><span><img src="./../img/logo.png" alt="logo" width="30"> enSelle</a><span> </div> <div class="navbar-collapse collapse" id="navbar"> <ul class="nav navbar-nav navbar-left"> <li><a class="navbar" href="/about.html">About</a></li> <li><a class="navbar" href="/stations/">Stations</a></li> <li><a class="navbar" href="/map.html">Carte</a></li> </ul> <ul class="nav navbar-nav navbar-right"> <li><a class="navbar" href="mailto:hello@enselle.io?Subject=Hi%20enSelle">Contact</a></li><li><a class="navbar" href="http://api.enselle.io">API</a></li> </ul> </div></div></nav>';
+    navbar = '<nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/"><span><img src="./../img/logo.png" alt="logo" width="30"> enSelle</a><span> </div> <div class="navbar-collapse collapse" id="navbar"> <ul class="nav navbar-nav navbar-left"> <li><a class="navbar" href="/about">About</a></li> <li><a class="navbar" href="/stations/">Stations</a></li> <li><a class="navbar" href="/map">Map</a></li> </ul> <ul class="nav navbar-nav navbar-right"> <li><a class="navbar" href="mailto:hello@enselle.io?Subject=Hi%20enSelle">Contact</a></li><li><a class="navbar" href="http://api.enselle.io">API</a></li> </ul> </div></div></nav>';
 // ==================
 
 
@@ -88,7 +88,8 @@ exports.getListe = function(req,res) {
     db.get().collection('stations').find({},{"name":1, "address":1, "id_station":1, "bikes":1, "stands":1}).toArray(function(err,items) {
         assert.equal(err,null);
         if (items != null) {
-            res.send(makeTable(items));
+            res.render('station',{stations: items});
+            //res.send(makeTable(items));
         }
     });
 };
