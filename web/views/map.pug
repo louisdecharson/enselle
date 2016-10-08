@@ -1,0 +1,56 @@
+doctype html
+html
+head    
+include includes/head.pug
+script(src='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.js')
+link(rel='stylesheet' href='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.css')
+script(src='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js')
+link(rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css')
+
+body
+style.
+        #map {position:absolute; top:50px; bottom:0; width:100%}
+        #switchmap {position:absolute; top: 60px; left:45%;}
+        #button {position:absolute; top: 60px; left:43%; border-radius: 8px 0px 0px 8px !important}
+        #button2 {position:absolute; top: 60px; left:47%; border-radius: 0px 8px 8px 0px !important}
+include includes/navbar.pug
+
+
+div(id='map')
+div
+        label(class='switch', id='switchmap')
+                input(type='checkbox' id='clicker')
+                div(class='slider round')
+        // button(type='button' class='btn btn-primary' id='button') Bikes
+        // button(type='button' class='btn btn-primary' id='button2') Stands
+script.
+        L.mapbox.accessToken = "#{accessToken}";
+        // var map = L.mapbox.map('map','mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],14).addLayer(L.mapbox.tileLayer('mapbox.light'));
+        var map = L.mapbox.map('map','mapbox.light', {attributionControl:true}).setView([48.8566, 2.3522],15);
+        var bikes = L.mapbox.featureLayer();
+        var isBikes = true;
+        bikes.setGeoJSON(!{geojson}).addTo(map);
+        $('#clicker').click(function(){
+                if (isBikes) {
+                        var myGeojson = !{geojson};
+                        $.each(myGeojson['features'],function(i,it) {
+                                it.properties['marker-symbol'] = it.properties.stands.toString();
+                                it.properties['marker-color'] = "#974D39";
+                        });
+                        stands = L.mapbox.featureLayer(myGeojson);
+                        stands.addTo(map);
+                        map.removeLayer(bikes);
+                        isBikes = false;
+                } else {
+                        map.removeLayer(stands);
+                        var myGeojson = !{geojson};
+                        $.each(myGeojson['features'],function(i,it) {
+                                it.properties['marker-symbol'] = it.properties.bikes.toString();
+                                it.properties['marker-color'] = "#332A6C";
+                        });
+                        bikes = L.mapbox.featureLayer(myGeojson);
+                        bikes.addTo(map);
+                        isBikes = true;
+                }
+                
+        })
