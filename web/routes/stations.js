@@ -8,54 +8,6 @@ require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
 
 var db = require('../db');
 
-// for HTML
-// ====================
-var meta = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">',
-    jQuery = '<script src="./../bower_components/jquery/dist/jquery.min.js"></script>',
-    bootstrap = '<link rel="stylesheet" type=text/css href="./../bower_components/bootstrap/dist/css/bootstrap.min.css"><script src="./../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>',
-    listJS = '<script src="./../bower_components/list.js/dist/list.min.js"></script>',
-    jsforListJS = "<script>var options = {valueNames: ['name', 'address'], searchClass: 'form-control'}; var dataList = new List('myStations',options);</script>",
-    enSelleCSS = '<link rel="stylesheet" type=text/css href="./../css/enSelle.css">',
-    dyGraph = '<script src="./../bower_components/dygraphs/dygraph-combined.js"></script>',
-    mapBG = '<div class="mapBG">',
-    navbar = '<nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/"><span><img src="./../img/logo.png" alt="logo" width="30"> enSelle</a><span> </div> <div class="navbar-collapse collapse" id="navbar"> <ul class="nav navbar-nav navbar-left"> <li><a class="navbar" href="/about">About</a></li> <li><a class="navbar" href="/stations/">Stations</a></li> <li><a class="navbar" href="/map">Map</a></li> </ul> <ul class="nav navbar-nav navbar-right"> <li><a class="navbar" href="mailto:hello@enselle.io?Subject=Hi%20enSelle">Contact</a></li><li><a class="navbar" href="http://api.enselle.io">API</a></li> </ul> </div></div></nav>';
-// ==================
-
-
-
-function pageStation(maStation,lastItem,arr24h,stats) {
-    var pageWrapper = '<div class="pageWrapper">';
-    var title = '',
-        myGMap = '<iframe width="500px" height="300px" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCLIuSIWGEbQA8rRFHB_0YtKRMaYDXWDWk&q=' + maStation.coord[0].toString() + ',' + maStation.coord[1].toString() + '&zoom=15"></iframe>';
-    
-    var monGraph = "<div id='graphdiv'></div>";
-    
-    // On remplit le vecteur pour le graph avec date, vélos, stands.
-    var jsforGraph = '<script type="text/javascript"> g = new Dygraph(document.getElementById("graphdiv"),[';
-    arr24h.sort(function(a,b) {
-        var c = new Date(a.timestamp),
-            d = new Date(b.timestamp);
-        return c-d;
-    });
-        
-    arr24h.forEach(function(it) {
-        jsforGraph += '[new Date(' + it.timestamp + '),' + [it.bikes,it.stands].toString() + '],';
-    });
-    jsforGraph += '],{labels: ["date","bikes","stands"], legend: "always", colors: ["#332A6C","#974D39"]});</script>';
-
-    var nomStation = '<div class="nomStation"><h3>Station: '+ maStation.name + '</h3></div>',
-        rowContainer = '<div class="container"><div class="row">',
-        coldroite = '<div class="col-sm-6">',
-        colgauche = '<div class="col-sm-6">';
-
-    var dernierVelos = '<div class="dernierVelo">Bikes: ' + lastItem.bikes + ' (' + stats.bikes_moy  +')'  + ' Stands: ' + lastItem.stands + ' (' + stats.stands_moy  +')' + '</div>';
-    var monAdresse = '<div class="myAddress">Address : ' + maStation.address  + '</div>';
-
-    var myHTML = meta + title + jQuery + bootstrap + dyGraph + enSelleCSS + '</head><body>' + mapBG  + navbar +  pageWrapper + nomStation  + rowContainer + colgauche + dernierVelos + monGraph + '</div>' + coldroite  + monAdresse + myGMap +  '</div></div></div>' + jsforGraph +'</body></html>';
-    return myHTML;
-}
-
-
 // ============================================================
 
 
@@ -64,8 +16,7 @@ exports.getListe = function(req,res) {
     db.get().collection('stations').find({},{"name":1, "address":1, "id_station":1, "bikes":1, "stands":1}).toArray(function(err,items) {
         assert.equal(err,null);
         if (items != null) {
-            res.render('station',{stations: items});
-            //res.send(makeTable(items));
+            res.render('stations',{stations: items});
         }
     });
 };
@@ -78,7 +29,7 @@ exports.getStation = function(req,res) {
         min = today.getMinutes(),
         weekend = (today.getDay() > 5),
         timestamp = today.getTime(),
-        timestamp_hier = new Date(timestamp-1000*60*60*24),
+        //timestamp_hier = new Date(timestamp-1000*60*60*24),
         bikes_moy = 0,
         stands_moy = 0,
         bikes_lastHour = 0,
@@ -91,6 +42,8 @@ exports.getStation = function(req,res) {
     db.get().collection('stations').findOne({"id_station": stationId}, function(err,doc) {
         assert.equal(err,null);
         var maStation = doc;
+        var map = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCLIuSIWGEbQA8rRFHB_0YtKRMaYDXWDWk&q=' + maStation.coord[0].toString() + ',' + maStation.coord[1].toString() + '&zoom=15';
+        
         var cursor = db.get().collection('velos').find({"id_station": stationId},{"time":1, "bikes":1, "stands":1, "timestamp":1, "_id":0}).sort({$natural:-1}).limit(288);
 
         cursor.each(function(err,item) {
@@ -101,13 +54,14 @@ exports.getStation = function(req,res) {
                 compt ++;
             }
             // On récupère les vélos des dernières 24h
-            if (item != null && item.timestamp > timestamp_hier ) {
-                arr24h.push(item);
+            if (item != null) {
+                arr24h.unshift([item.timestamp, item.bikes, item.stands]);
             }
             // Vélos moyens pour l'heure en cours
             if (item == null) {
-                var stats = {"bikes_moy": Math.floor(bikes_moy/compt), stands_moy: Math.floor(stands_moy/compt)};
-                res.send(pageStation(maStation,lastItem,arr24h,stats));
+                var stats = {"bikes_moy": Math.floor(bikes_moy/compt), "stands_moy": Math.floor(stands_moy/compt)};
+                res.render('station',{maStation: maStation, dernierVelo: lastItem, arr: arr24h, stats: stats, map: map});
+                // res.send(pageStation(maStation,lastItem,arr24h,stats));
             } else {
                 lastItem = item; // dernier vélo pour affichage.
             }

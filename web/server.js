@@ -24,12 +24,11 @@ db.connect(url, function(err,database) {
 });
 
 app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use('/',express.static(__dirname + '/public/'));
-
-// app.use('/',express.static(__dirname + '/public/'));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/public',express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(path.join(__dirname, 'bower_components')));
 
 // Favicon
 // app.use(favicon(path.join(__dirname,'public','favicon.ico')));

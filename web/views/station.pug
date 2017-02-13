@@ -3,33 +3,29 @@ html
 head    
 include includes/head.pug
 body
+input(type="hidden", id="data", value= JSON.stringify(arr))
 div(class='mapBG')
         include includes/navbar.pug
-        div(id='myStations')
-                h2 Velib stations
-                input(class='form-control' placeholder='Search')
+        div(class='pageWrapper')
                 br
-                table(class='table table-condensed table-hover')
-                        thead
-                                th Name
-                                th Address
-                                th Bikes
-                                th Stands
-                        tbody(class='list')
-                                each item in stations
-                                        tr
-                                                td(class='name')
-                                                        a(href="/station/"+item.id_station)= item.name
-                                                td(class='address')= item.address
-                                                td(class='address')= item.bikes
-                                                td(class='address')= item.stands
+                div(class='nomStation')
+                        h4 Station: #{maStation.name}
+                div(class='container')
+                        div(class='row')
+                                div(class='col-sm-6')
+                                        div(class='dernierVelo') Bikes: #{dernierVelo.bikes} Stands: #{dernierVelo.stands}
+                                        div(id='graphdiv')
+                                div(class='col-sm-6')
+                                        div(class='myAddress') Address: #{maStation.address}
+                                        iframe(width='500px', height='300px', frameborder='0', style='border:0', src=map)
 
-        script(src='./../bower_components/list.js/dist/list.min.js')
-        script.
-                var options = {
-                        valueNames: ['name','address'],
-                        searchClass: 'form-control'
-                };
-                var dataList = new List('myStations',options);
+script(src='/bower_components/dygraphs/dygraph-combined.js')
+script.
+        var dataJSON =  JSON.parse(document.getElementById("data").value);
+        var data = [];
+        for(var i = 0; i < dataJSON.length; i++){
+                data.push([new Date(dataJSON[i][0]),dataJSON[i][1],dataJSON[i][2] ]);
+        }
+        g = new Dygraph(document.getElementById("graphdiv"),data,{labels:["date","bikes","stands"], legend: "always", colors: ["#332A6C","#974D39"]});
 
 include includes/footer.pug
