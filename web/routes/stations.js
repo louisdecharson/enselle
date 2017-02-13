@@ -23,30 +23,6 @@ var meta = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org
 
 
 
-function makeTable(items) {
-    var title = '';
-    var body = '',
-        table = '',
-        theader = '<th>Name</th><th>Address</th><th>Bikes</th><th>Stands</th>',
-        tbody = '';
-    body += '<div id="myStations"><h2>Velib stations</h2>'; // for ListJS
-    body += '<input class="form-control" placeholder="Search"><br>';
-
-    items.forEach(function (item, index) {
-        tbody += '<tr>';
-        tbody += '<td class="name"><a href="/station/' + item.id_station +
-            '">' + item.name + '</a>' + '</td>';
-        tbody += '<td class="address">' + item.address + '</td>';
-        tbody += '<td class="address">' + item.bikes + '</td>';
-        tbody += '<td class="address">' + item.stands + '</td>';
-        tbody += '</tr>';
-    });
-    var myHTML = meta + title + jQuery + bootstrap + enSelleCSS + '</head><body>'  + mapBG + navbar + body  + '<table class="table table-condensed table-hover">' + '<thead>'  + '<tr>' + theader + '</tr>' + '</thead>' + '<tbody class="list">' + tbody + '</tbody>'  +'</table></div>' + listJS  + jsforListJS + '</div></body></html>';
-
-    return myHTML;
-};
-
-
 function pageStation(maStation,lastItem,arr24h,stats) {
     var pageWrapper = '<div class="pageWrapper">';
     var title = '',
@@ -138,3 +114,4 @@ exports.getStation = function(req,res) {
         });
     });
 };
+

@@ -1,6 +1,6 @@
-var mongo = require('mongodb'),
-    path = require('path'),
-    assert = require('assert');
+const mongo = require('mongodb'),
+      path = require('path'),
+      assert = require('assert');
 
 require('dotenv').config({path:path.join(__dirname,'/../../config/.env')});
 
@@ -31,9 +31,13 @@ exports.findAll= function(req,res) {
        
 
 exports.findbyStationId = function(req, res) {
-    var stationId = Number(req.params.station_id),
-        limit = Math.max(req.param('limit'),10);
-    var cursor =  db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":1}).sort({$natural:-1}).limit(limit).toArray(function(err,items){
+    var stationId = Number(req.params.station_id);
+    var limit = req.param('limit');
+    if (limit === undefined) {
+        limit = 1000;
+    }
+    console.log(limit);
+    db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":1}).sort({$natural:-1}).limit(limit).toArray(function(err,items){
         assert.equal(err,null);
         if (items != null){
             res.send(items);
