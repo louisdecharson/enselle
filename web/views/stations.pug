@@ -1,0 +1,35 @@
+doctype html
+html
+head    
+include includes/head.pug
+body
+div(class='mapBG')
+        include includes/navbar.pug
+        div(id='myStations')
+                h2 Velib stations
+                input(class='form-control' placeholder='Search')
+                br
+                table(class='table table-condensed table-hover')
+                        thead
+                                th Name
+                                th Address
+                                th Bikes
+                                th Stands
+                        tbody(class='list')
+                                each item in stations
+                                        tr
+                                                td(class='name')
+                                                        a(href="/station/"+item.id_station)= item.name
+                                                td(class='address')= item.address
+                                                td(class='address')= item.bikes
+                                                td(class='address')= item.stands
+
+        script(src='/bower_components/list.js/dist/list.min.js')
+        script.
+                var options = {
+                        valueNames: ['name','address'],
+                        searchClass: 'form-control'
+                };
+                var dataList = new List('myStations',options);
+
+include includes/footer.pug
