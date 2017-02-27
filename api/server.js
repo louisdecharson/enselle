@@ -9,8 +9,6 @@ var express = require('express'),
 require('dotenv').config({path:'./../config/.env'});
 
 var app = express();
-var router = express.Router();
-
 const port = process.env.Port || 3000;
 
 var url = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':27017/' + process.env.DB_NAME;
@@ -44,5 +42,9 @@ app.get('/weather', weather.findAll);
 app.get('/weather/:time',weather.findbyTime);
 app.get('/fcst',weather.forecast);
 
+// 404
+app.use(function(req, res){
+    res.status(404).send("ERROR 404");
+});
 
 

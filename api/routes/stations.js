@@ -35,14 +35,19 @@ exports.findbyStationId = function(req, res) {
     var limit = req.param('limit');
     if (limit === undefined) {
         limit = 1000;
+    } else {
+        limit = Number(limit);
     }
-    console.log(limit);
-    db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":1}).sort({$natural:-1}).limit(limit).toArray(function(err,items){
-        assert.equal(err,null);
-        if (items != null){
-            res.send(items);
-        };
-    });
+    if (Number.isInteger(limit)) {
+        db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "_id":1}).sort({$natural:-1}).limit(limit).toArray(function(err,items){
+            assert.equal(err,null);
+            if (items != null){
+                res.send(items);
+            };
+        });
+    } else {
+        res.send("Limit should be an integer");
+    }
 };
 
 

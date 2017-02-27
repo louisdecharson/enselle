@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "mise à jour des fichiers (1/2)"
-cd fetchers/
+cd ../fetchers/
 sudo npm install
 cd ../web
 sudo npm install
