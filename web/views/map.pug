@@ -23,7 +23,7 @@ div
 script.
         L.mapbox.accessToken = "#{accessToken}";
         // var map = L.mapbox.map('map','mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],14).addLayer(L.mapbox.tileLayer('mapbox.light'));
-        var map = L.mapbox.map('map','mapbox.light', {attributionControl:true}).setView([48.8566, 2.3522],15);
+        var map = L.mapbox.map('map','mapbox.light', 'mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],15);
         var bikes = L.mapbox.featureLayer();
         var isBikes = true;
         bikes.setGeoJSON(!{geojson}).addTo(map);

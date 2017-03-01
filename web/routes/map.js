@@ -75,9 +75,7 @@ exports.getMap = function(req,res) {
             result.on('end',function() {
                 var json = JSON.parse(xml);
                 geoParser(json, function(geojson) {
-                    //console.log(geojson);
                     res.render('map',{accessToken: accessToken, geojson: JSON.stringify(geojson)});
-                    // res.send(geojson);
                 });
             });
         } else {

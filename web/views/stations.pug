@@ -6,10 +6,10 @@ body
 div(class='mapBG')
         include includes/navbar.pug
         div(id='myStations')
-                h2 Velib stations
+                h2(id='startchange') Velib stations
                 input(class='form-control' placeholder='Search')
                 br
-                table(class='table table-condensed table-hover')
+                table(class='table table-sm table-hover')
                         thead
                                 th Name
                                 th Address

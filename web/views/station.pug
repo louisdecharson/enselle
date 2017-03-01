@@ -2,24 +2,61 @@ doctype html
 html
 head    
 include includes/head.pug
-body
+script(src='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.js')
+link(rel='stylesheet' href='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.css')
+link(rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css')
+body()
+style.
+        #map {padding-left:2%; min-height: 400px; height:100%; width:100%}
 input(type="hidden", id="data", value= JSON.stringify(arr))
 div(class='mapBG')
         include includes/navbar.pug
         div(class='pageWrapper')
-                br
-                div(class='nomStation')
-                        h4 Station: #{maStation.name}
-                div(class='container')
-                        div(class='row')
-                                div(class='col-sm-6')
-                                        div(class='dernierVelo') Bikes: #{dernierVelo.bikes} Stands: #{dernierVelo.stands}
-                                        div(id='graphdiv')
-                                div(class='col-sm-6')
-                                        div(class='myAddress') Address: #{maStation.address}
-                                        iframe(width='500px', height='300px', frameborder='0', style='border:0', src=map)
-
+                div(class='ficheStation')
+                        div(class='container-fluid')
+                                div(class='row')
+                                        nav(class='col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar')
+                                                ul(class='nav nav-pills flex-column')
+                                                        li(class='nav-item')
+                                                                a(class='aside nav-link active' href='#') Map
+                                                        li(class='nav-item')
+                                                                a(class='aside nav-link' href='#') Track record
+                                                        li(class='nav-item')
+                                                                a(class='aside nav-link') Forecast
+                                        div(class='col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3')
+                                            div(class='nomStation')
+                                                    div(class='container')
+                                                            div(class='row')
+                                                                    div(class='col-sm-5')
+                                                                            h4 #{nomStation} (#{idStation})
+                                                                            div(class='myAddress') #{maStation.address}
+                                                                    div(class='col-sm-2')
+                                                                            ul(class='dernierVelo' style="list-style: none;") 
+                                                                                li 
+                                                                                    img(src='/public/img/bike.png' width='30' align='middle' alt='bikes')
+                                                                                    |  : #{dernierVelo.bikes}
+                                                                                li
+                                                                                    img(src='/public/img/stand.png' width='30' align='middle' alt='stands')
+                                                                                    |  : #{dernierVelo.stands}
+                                                                    div(class='col-sm-2')
+                                                                            canvas(id="weather" width="100%" height="64" style="margin-left:100%;")
+                                            hr
+                                            div(id='map')
+                                            div(id='graphdiv')
 script(src='/bower_components/dygraphs/dygraph-combined.js')
+script(src='/public/js/skycons.js')
+script.
+        $(document).ready(function() {
+            $('.ficheStation').height('100%');
+            $('#graphdiv').hide();
+            $('a.aside.nav-link').click(function(){
+                $('a.aside.nav-link.active').removeClass('active');
+                $('a.aside.nav-link.active').hide();
+                $('#map').toggle();
+                $('#graphdiv').toggle();
+                $(this).addClass('active');
+            })
+    })
 script.
         var dataJSON =  JSON.parse(document.getElementById("data").value);
         var data = [];
@@ -28,4 +65,13 @@ script.
         }
         g = new Dygraph(document.getElementById("graphdiv"),data,{labels:["date","bikes","stands"], legend: "always", colors: ["#332A6C","#974D39"]});
 
+script.
+        L.mapbox.accessToken = "#{accessToken}";
+        var map = L.mapbox.map('map', 'mapbox.streets', {attributionControl:true}).setView([#{maStation.coord[0]} , #{maStation.coord[1]}],17);
+        var bikes = L.mapbox.featureLayer().setGeoJSON([!{geojson}]).addTo(map);
+script.
+        var skycons = new Skycons({"color": "#332A6C"});
+        skycons.add("weather", Skycons.#{icon});
+        skycons.play();
+        
 include includes/footer.pug
