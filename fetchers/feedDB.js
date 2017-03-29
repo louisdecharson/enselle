@@ -11,7 +11,7 @@ require('dotenv').config({path:path.join(__dirname,'/../config/.env')});
 // Variables
 var db = 'mongodb://' + process.env.DB_USER_FEED + ':' + process.env.DB_PASS_FEED + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT +  '/' + process.env.DB_NAME;
 
-var url = "http://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&rows=1240&facet=banking&facet=bonus&facet=status&facet=contract_name";
+const url = "http://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&rows=1240&facet=banking&facet=bonus&facet=status&facet=contract_name";
 
 // Log
 winston.add(winston.transports.File, { filename: 'feedDB.log' });
@@ -95,11 +95,22 @@ function feedDB(db,url,callback){
     });
 }
 var success = false;
+var timeout = setTimeout(function(){
+    timeout = null;
+    winston.log('warn','feedDB timedout');
+    if (db) {
+        db.close();
+    }
+    process.exit();
+},180000);
 feedDB(db,url, function(str) {
-    if (str === 'success') {
-        winston.log('info','database sucessfully updated');
-    } else {
-        winston.log('warn','errors occured');
+    if (timeout) {
+        if (str === 'success') {
+            winston.log('info','database sucessfully updated');
+        } else {
+            winston.log('warn','errors occured');
+        }
+        clearTimeout(timeout);
     }
 });
 

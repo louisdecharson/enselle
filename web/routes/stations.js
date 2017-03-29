@@ -28,7 +28,7 @@ function getWeather(coord,cb) {
     var url = "https://api.forecast.io/forecast/"+forecast_weather+"/"+coord[1].toString()+','+coord[0].toString();
     request(url,function(error,res,body){
         if(!error && res.statusCode == 200) {
-            cb(JSON.parse(body)['currently']['icon'].toUpperCase().replace('-','_'));
+            cb(JSON.parse(body)['currently']['icon'].toUpperCase().split('-').join(('_')));
         } else {
             cb("");
         }
