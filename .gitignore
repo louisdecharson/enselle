@@ -18,3 +18,5 @@ api/fcst.json
 
 config/
 copySSH.sh
+
+models/

@@ -88,6 +88,7 @@ function feedDB(db,url,callback){
                     callback('success');
                 });
             } else {
+                db.close();
                 winston.log('error',error);
                 callback('error');
             }
