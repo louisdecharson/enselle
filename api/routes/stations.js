@@ -52,3 +52,42 @@ exports.findbyStationId = function(req, res) {
 
 
 
+exports.forecast = function(req,res) {
+    var stationId = Number(req.params.station_id);
+    var horizon = req.param('h');
+    if (horizon === undefined) {
+        horizon = 1;
+    } else {
+        horizon = Math.floor(horizon/5);
+    }
+    var spawn = require('child_process').spawn,
+        py = spawn('python',['./routes/forecast.py',stationId.toString(),horizon.toString()]),
+        ans = '';
+    db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "weekend": 1, "_id":1}).sort({$natural:-1}).limit(288).toArray(function(err,items){
+        assert.equal(err,null);
+        if (items != null){
+            var dataIn = items;
+            py.stdin.write(JSON.stringify(dataIn));
+            py.stdin.end();
+            py.stderr.on('data',function(data) {
+                console.log('ERROR in Python Code: ',data.toString('utf8'));
+            });
+            py.stdout.on('data',function(data){
+                ans += data;
+            });
+            py.stdout.on('end',function(){
+                res.set('Content-type','text/plain');
+                res.send(ans);
+            });
+            py.on('close',function(code,signal){
+                if (code !==0){
+                    res.set('Content-type','text/plain');
+                    res.send('Error');
+                    console.log('Exit with code ',code,'Signal:',signal);
+                } else {
+                    console.log('Forecast done with no errors');
+                }
+            });
+        };
+    });
+};

@@ -37,10 +37,7 @@ app.use('/',express.static(__dirname + '/public/'));
 app.get('/connect',stations.hello);
 app.get('/stations', stations.findAll);
 app.get('/stations/:station_id', stations.findbyStationId);
-
-app.get('/weather', weather.findAll);
-app.get('/weather/:time',weather.findbyTime);
-app.get('/fcst',weather.forecast);
+app.get('/f/:station_id',stations.forecast);
 
 // 404
 app.use(function(req, res){
