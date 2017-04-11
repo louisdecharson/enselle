@@ -13,7 +13,8 @@
     "jade": "^1.11.0",
     "mongodb": "2.2.6",
     "pug": "^2.0.0-beta5",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "request": "4.1.1"
   },
   "scripts": {
     "start": "node server.js"

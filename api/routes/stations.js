@@ -61,7 +61,7 @@ exports.forecast = function(req,res) {
         horizon = Math.floor(horizon/5);
     }
     var spawn = require('child_process').spawn,
-        py = spawn('python',['./routes/forecast.py',stationId.toString(),horizon.toString()]),
+        py = spawn('python3',['./routes/forecast.py',stationId.toString(),horizon.toString()]),
         ans = '';
     db.get().collection('velos').find({"id_station":stationId}, {"time":1, "bikes":1, "stands":1,"timestamp":1, "weekend": 1, "_id":1}).sort({$natural:-1}).limit(288).toArray(function(err,items){
         assert.equal(err,null);
