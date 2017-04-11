@@ -81,8 +81,8 @@ exports.forecast = function(req,res) {
             });
             py.on('close',function(code,signal){
                 if (code !==0){
-                    res.set('Content-type','text/plain');
-                    res.send('Error');
+                    // res.set('Content-type','text/plain');
+                    // res.send('Error');
                     console.log('Exit with code ',code,'Signal:',signal);
                 } else {
                     console.log('Forecast done with no errors');
