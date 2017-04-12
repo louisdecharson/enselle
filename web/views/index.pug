@@ -9,12 +9,12 @@ div(class='mapBG')
         div(class='container')
                 div(class='content')
                         div(class='jumbotron')
-                                h1 enSelle
-                                p Sick of shared bikes' shortage ? We use the most advanced machine learning techniques to forecast available bikes in bike stations. <strong>In Real Time</strong>.
-                                i Available soon in Paris
-                                hr
-                                p En panne de vélib ? enSelle prédit en temps réel le nombre de vélos à chaque station au cours des prochaines heures.
-                                i Bientôt disponible
-
-
+                                div(class='row')
+                                        div(class='col-md-3 col-sm-6')
+                                                img(width="170" height="170" alt="logo" src="./public/img/icon.png" style="margin-top:-20px;")
+                                        div(class='col-md-9 col-sm-6')
+                                                h1 enSelle
+                                                p enSelle est un bot Messenger qui vous indique le nombre de vélos à côté de chez vous.
+                                                a(href="https://m.me/ensellebot")
+                                                        button(class='fbs-button') Send Message
 include includes/footer.pug
