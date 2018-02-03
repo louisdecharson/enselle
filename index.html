@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content="enSelle - bike predictor" />
+        <meta name="author" content='enSelle'/>
+
+        <title>enSelle</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./web/public/css/enSelle.css" type="text/css" media="screen" />
+        <style>
+         #map {position:absolute; top:0; bottom:0; width:100%;}
+         #switchmap {position:absolute; top: 60px; left:45%;}
+         .badge {position:absolute; top:1%;right:5%; cursor:pointer;}
+        </style>
+    </head>
+
+    <body>  
+        <div class="map" id="map"></div>
+        <span id="closeMap" class="badge badge-pill badge-danger map">Close</span>
+        </div>
+        <label class='switch', id='switchmap'>
+            <input type='checkbox' id='clicker'/>
+            <div class='slider round'></div>
+        </label>
+        <div class="mapBG">
+            <div class="container">
+                <div class="content">
+                    <div class="jumbotron">
+                        <h1>enSelle</h1>
+                        <p>enSelle était un bot Messenger qui indiquait le nombre de vélos à côté de chez vous.Le service a été arrêté le 01/01/2018.</p>
+                        <hr style="background-color:white;"/>
+                        <p><i>enSelle was a Messenger bot predicting number of bike available in the nearest bike-sharing stations. Service was stopped on 1st of January.</i></p>
+                        <button class="btn btn-danger" id="viewMap">View Map</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.js'></script>
+        <link rel='stylesheet' href='http://api.tiles.mapbox.com/mapbox.js/v2.2.4/mapbox.css'/>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+        <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css'/>
+        <script type="text/javascript" src="./web/public/js/enSelle_map.js"></script>
+    </body>
+</html>
