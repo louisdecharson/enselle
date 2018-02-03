@@ -16,6 +16,7 @@ function createDescription(it) {
 }
 $("#switchmap").hide();
 $("#closeMap").hide();
+L.mapbox.accessToken = "pk.eyJ1IjoibG91aXNkZWNoYXJzb24iLCJhIjoiY2lubTF0dThvMDBhZHc5bTIxazN5YmI0MiJ9.kSOg1wJFUmNOWG6_vqEaoA";
 $.getJSON(url,function(data) {
     var geojson = {};
     geojson['type'] = 'FeatureCollection';
@@ -39,9 +40,7 @@ $.getJSON(url,function(data) {
             }
         };
         geojson['features'].push(newFeature);
-    }
-    L.mapbox.accessToken = "pk.eyJ1IjoibG91aXNkZWNoYXJzb24iLCJhIjoiY2lubTF0dThvMDBhZHc5bTIxazN5YmI0MiJ9.kSOg1wJFUmNOWG6_vqEaoA";
-    // var map = L.mapbox.map('map','mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],14).addLayer(L.mapbox.tileLayer('mapbox.light'));
+    }    
     var map = L.mapbox.map('map','mapbox.light', 'mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],14);
     var bikes = L.mapbox.featureLayer();
     bikes.setGeoJSON(geojson).addTo(map);
