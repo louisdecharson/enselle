@@ -156,8 +156,10 @@ $.getJSON(url_villeParis)
         var geojson = createGEOJSON(data,'villeParis');
         createStats(data,'villeParis');
         createMap(geojson);
+        console.log('DATA FETCHED: VILLE DE PARIS');
     })
     .fail(function() {
+        console.log('FETCHED FAILED ON VILLE DE PARIS');
         $.getJSON(url_citybike)
             .done(function(data){
                 var data = data.network.stations;
