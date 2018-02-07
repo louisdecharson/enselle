@@ -85,7 +85,7 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a {
     padding-top: 50px;
 }
 .jumbotron {
-    margin-top: 10%;
+    margin-top: 5%;
     background-color: rgba(51, 42, 108,0.5) !important;
     color: white;
 }
