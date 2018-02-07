@@ -1,9 +1,7 @@
 const url_citybike = "https://api.citybik.es/v2/networks/velib";
 const url_villeParis = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&rows=2000";
 
-$("#switchmap").hide();
-$("#closeMap").hide();
-L.mapbox.accessToken = "pk.eyJ1IjoibG91aXNkZWNoYXJzb24iLCJhIjoiY2lubTF0dThvMDBhZHc5bTIxazN5YmI0MiJ9.kSOg1wJFUmNOWG6_vqEaoA";
+
 
 function createDescription(it,type) {
     switch(type) {
@@ -170,6 +168,10 @@ $.getJSON(url_villeParis)
                 console.log('Unable to fetch data');
             });
     });
+
+$("#switchmap").hide();
+$("#closeMap").hide();
+L.mapbox.accessToken = "pk.eyJ1IjoibG91aXNkZWNoYXJzb24iLCJhIjoiY2lubTF0dThvMDBhZHc5bTIxazN5YmI0MiJ9.kSOg1wJFUmNOWG6_vqEaoA";
 
 $("#viewMap").click(function(){
     $(".mapBG").hide();
