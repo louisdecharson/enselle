@@ -1,46 +1,88 @@
-const url = "https://api.citybik.es/v2/networks/velib";
+const url_citybike = "https://api.citybik.es/v2/networks/velib";
+const url_villeParis = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&rows=2000";
 
-function createDescription(it) {
-
-    var desc = "<div class='popup'>";
-    if (it.extra.has_ebikes === "true") {
-        desc += "<span class='badge badge-pill badge-success'>e-Bikes</span>";
-    }
-    desc += "<hr></hr>";
-    desc += "<p>Bikes: " + it.free_bikes + "</p>";
-    if (it.extra.has_ebikes === "true") {
-        desc += "<p>e-Bikes: " + it.extra.ebikes + "</p>";
-    }
-    desc += "<p>Empty slots: " + it.empty_slots + "</p></center></div>";
-    return desc;
-}
 $("#switchmap").hide();
 $("#closeMap").hide();
 L.mapbox.accessToken = "pk.eyJ1IjoibG91aXNkZWNoYXJzb24iLCJhIjoiY2lubTF0dThvMDBhZHc5bTIxazN5YmI0MiJ9.kSOg1wJFUmNOWG6_vqEaoA";
-$.getJSON(url,function(data) {
+
+function createDescription(it,type) {
+    switch(type) {
+    case 'citybik':
+        var desc = "<div class='popup'>";
+        if (it.extra.has_ebikes === "true") {
+            desc += "<span class='badge badge-pill badge-success'>e-Bikes</span>";
+        }
+        desc += "<hr></hr>";
+        desc += "<p>Bikes: " + it.free_bikes + "</p>";
+        if (it.extra.has_ebikes === "true") {
+            desc += "<p>e-Bikes: " + it.extra.ebikes + "</p>";
+        }
+        desc += "<p>Empty slots: " + it.empty_slots + "</p></center></div>";
+        break;
+    case 'villeParis':
+        var desc = "<div class='popup'>";
+        desc += "<hr></hr>";
+        desc += "<p>Bikes: " + it.fields.numbikesavailable + "</p>";
+        desc += "<p>Empty slots: " + it.fields.numdocksavailable + "</p></center></div>";
+        break;
+    }
+    return desc;
+}
+
+function createGEOJSON(data,type) {
     var geojson = {};
     geojson['type'] = 'FeatureCollection';
     geojson['features'] = [];
-    var data = data.network.stations;
-    for (var k in data) {
-        var newFeature = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [parseFloat(data[k].longitude), parseFloat(data[k].latitude)]
-            },
-            "properties": {
-                "title": data[k].name,
-                "description": createDescription(data[k]),
-                "marker-color": "#332A6C",
-                "marker-size": "medium",
-                "stands": data[k].empty_slots,
-                "bikes": data[k].free_bikes,
-                "marker-symbol": data[k].free_bikes.toString()
+    switch(type){
+    case 'citybik':
+        for (var k in data) {
+            var newFeature = {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [parseFloat(data[k].longitude), parseFloat(data[k].latitude)]
+                },
+                "properties": {
+                    "title": data[k].name,
+                    "description": createDescription(data[k],type),
+                    "marker-color": "#332A6C",
+                    "marker-size": "medium",
+                    "stands": data[k].empty_slots,
+                    "bikes": data[k].free_bikes,
+                    "marker-symbol": data[k].free_bikes.toString()
+                }
+            };
+            geojson['features'].push(newFeature);
+        }    
+        break;
+    case 'villeParis':
+        for (var k in data) {
+            if (data[k].fields.hasOwnProperty('lon')) {
+                newFeature = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [parseFloat(data[k].fields.lon), parseFloat(data[k].fields.lat)]
+                    },
+                    "properties": {
+                        "title": data[k].fields.name,
+                        "description": createDescription(data[k],type),
+                        "marker-color": "#332A6C",
+                        "marker-size": "medium",
+                        "stands": data[k].fields.numdocksavailable,
+                        "bikes": data[k].fields.numbikesavailable,
+                        "marker-symbol": data[k].fields.numbikesavailable.toString()
+                    }
+                };
+                geojson['features'].push(newFeature);
             }
-        };
-        geojson['features'].push(newFeature);
-    }    
+        }
+        break;
+    }
+    return geojson;
+}
+
+function createMap(geojson){
     var map = L.mapbox.map('map','mapbox.light', 'mapbox.streets', {attributionControl:true}).setView([48.8566, 2.3522],14);
     var bikes = L.mapbox.featureLayer();
     bikes.setGeoJSON(geojson).addTo(map);
@@ -67,7 +109,65 @@ $.getJSON(url,function(data) {
             isBikes = true;
         } 
     });
-});
+}
+
+function createStats(data,type) {
+    var nbOpenStations = 0,
+        nbBikes = 0,
+        nbStands = 0;
+    switch(type) {
+    case 'villeParis':
+        for (var k in data) {
+            if (data[k].fields.is_returning === 1) {
+                nbOpenStations += 1,
+                nbBikes += data[k].fields.numbikesavailable,
+                nbStands += data[k].fields.numdocksavailable; 
+            }
+        }
+        break;
+    case 'citybik':
+        break;
+    }
+    $("#nbOpenStations").text(nbOpenStations.toString());
+    $("#nbBikes").text(nbBikes.toString());
+    $("#nbStands").text(nbStands.toString());
+    $("#stats").show();
+}
+// $.getJSON(url_citybike)
+//     .done(function(data) {
+//         var data = data.network.stations;
+//         var geojson = createGEOJSON(data,'citybik');
+//         createMap(geojson);
+//     })
+//     .fail(function() {
+//         $.getJSON(url_villeParis)
+//             .done(function(data){
+//                 var data = data.records;
+//                 var geojson = createGEOJSON(data,'villeParis');
+//                 createMap(geojson);
+//             })
+//             .fail(function(){
+//                 console.log('Unable to fetch data');
+//             });
+//     });
+$.getJSON(url_villeParis)
+    .done(function(data) {
+        var data = data.records;
+        var geojson = createGEOJSON(data,'villeParis');
+        createStats(data,'villeParis');
+        createMap(geojson);
+    })
+    .fail(function() {
+        $.getJSON(url_citybike)
+            .done(function(data){
+                var data = data.network.stations;
+                var geojson = createGEOJSON(data,'citybik');
+                createMap(geojson);
+            })
+            .fail(function(){
+                console.log('Unable to fetch data');
+            });
+    });
 
 $("#viewMap").click(function(){
     $(".mapBG").hide();

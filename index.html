@@ -31,10 +31,28 @@
                 <div class="content">
                     <div class="jumbotron">
                         <h1>enSelle</h1>
-                        <p>enSelle était un bot Messenger qui indiquait le nombre de vélos à côté de chez vous.Le service a été arrêté le 01/01/2018.</p>
+                        <p>enSelle était un bot Messenger qui indiquait le nombre de vélos à côté de chez vous. Le service a été arrêté le 01/01/2018.</p>
                         <hr style="background-color:white;"/>
                         <p><i>enSelle was a Messenger bot predicting number of bike available in the nearest bike-sharing stations. Service was stopped on 1st of January.</i></p>
                         <button class="btn btn-danger" id="viewMap">View Map</button>
+                    </div>
+                    <div style="margin-top: 5%; margin-bottom:5%"></div>
+                    <div class="jumbotron" id="stats" style="display:none">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"># Open stations</th>
+                                    <th scope="col"># Available Bikes</th>
+                                    <th scope="col"># Available Stands</th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td class="stats" id="nbOpenStations"></td>
+                                        <td class="stats" id="nbBikes"></td>
+                                        <td class="stats" id="nbStands"></td>
+                                    </tr>
+                                </tbody>
+                            </thead>
                     </div>
                 </div>
             </div>

@@ -345,3 +345,7 @@ input:checked + .slider:before {
     word-spacing: 0px;
     word-wrap: break-word;
 }
+
+td.stats {
+    text-align:center;
+}
