@@ -346,6 +346,16 @@ input:checked + .slider:before {
     word-wrap: break-word;
 }
 
+
+/* Index */
 td.stats {
     text-align:center;
+}
+a.btn.btn-dark {
+    text-decoration: none;
+    background-color: #1f2226;
+    border-color: #1f2226;
+}
+a.btn.btn-dark:hover {
+    background-color: #0f1113;
 }
