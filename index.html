@@ -8,6 +8,7 @@
         <title>enSelle</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
         <link rel="stylesheet" href="./web/public/css/enSelle.css" type="text/css" media="screen" />
         <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
         <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet'/>
@@ -24,7 +25,7 @@
         </div>
         <label class='switch', id='switchmap'>
             <input type='checkbox' id='clicker'/>
-            <div class='slider round'></div>
+            <div class='slider round'><span class="contentslider"></span></div>
         </label>
         <div class="mapBG">
             <div class="container">
@@ -38,17 +39,18 @@
                     </div>
                     <div style="margin-top: 5%; margin-bottom:5%"></div>
                     <div class="jumbotron" id="stats" style="display:none">
+                        <p><strong>Paris</strong>, <span id="today"></span></p>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col"># Open stations</th>
-                                    <th scope="col"># Available Bikes</th>
-                                    <th scope="col"># Available Stands</th>
+                                    <th scope="col"><i class="fas fa-gas-pump"></i>Stations</th>
+                                    <th scope="col"><i class="fas fa-bicycle"></i>Bikes / <i class="fas fa-bolt"></i>eBikes</th>
+                                    <th scope="col"><i class="fas fa-parking"></i>Empty Slots</th>
                                 </tr>
                                 <tbody>
                                     <tr>
                                         <td class="stats" id="nbOpenStations"></td>
-                                        <td class="stats" id="nbBikes"></td>
+                                        <td class="stats"><span class="stats" id="nbBikes"></span> / <span class="stats" id="nbeBikes"></span></td>
                                         <td class="stats" id="nbStands"></td>
                                     </tr>
                                 </tbody>

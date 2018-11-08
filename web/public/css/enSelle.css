@@ -236,7 +236,7 @@ a.brand {color: #fff !important}
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
+  width: 100px;
   height: 34px;
 }
 
@@ -276,9 +276,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(66px);
+  -ms-transform: translateX(66px);
+  transform: translateX(66px);
 }
 
 /* Rounded sliders */
@@ -289,7 +289,20 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
+.contentslider:before {
+    color: #fff;
+    content: "Bikes";
+    position: absolute;
+    top: 22%;
+    left: 50%;
+}
+input:checked +  .slider .contentslider:before {
+  -webkit-transform: translateX(-33px);
+  -ms-transform: translateX(-33px);
+  transform: translateX(-33px);
+  content: "Slots";
+  color: #fff
+}
 
 .fbs-button{
     background-color: rgb(64, 128, 255);
@@ -348,7 +361,7 @@ input:checked + .slider:before {
 
 
 /* Index */
-td.stats {
+th, td.stats {
     text-align:center;
 }
 a.btn.btn-dark {
@@ -358,4 +371,7 @@ a.btn.btn-dark {
 }
 a.btn.btn-dark:hover {
     background-color: #0f1113;
+}
+.fas {
+    margin: 0 4 0 4;
 }

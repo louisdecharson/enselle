@@ -1,5 +1,5 @@
 const url_citybike = "https://api.citybik.es/v2/networks/velib";
-const url_villeParis = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&rows=2000";
+const url_villeParis = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&rows=20000";
 
 
 
@@ -112,7 +112,15 @@ function createMap(geojson){
 function createStats(data,type) {
     var nbOpenStations = 0,
         nbBikes = 0,
+        nbeBikes = 0,
         nbStands = 0;
+    var d = new Date(),
+        minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+        hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
+        // ampm = d.getHours() >= 12 ? 'pm' : 'am',
+        months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+        today = days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes;
     switch(type) {
     case 'villeParis':
         for (var k in data) {
@@ -124,11 +132,20 @@ function createStats(data,type) {
         }
         break;
     case 'citybik':
+        for (var k in data) {
+            nbOpenStations += 1,
+            nbStands += data[k].empty_slots,
+            nbBikes += data[k].free_bikes;
+            nbeBikes += data[k].extra.ebikes;
+        }
+        console.log(nbeBikes);
         break;
     }
     $("#nbOpenStations").text(nbOpenStations.toString());
-    $("#nbBikes").text(nbBikes.toString());
     $("#nbStands").text(nbStands.toString());
+    $("#nbeBikes").text(nbeBikes.toString());
+    $("#nbBikes").text(nbBikes.toString());
+    $("#today").text(today);
     $("#stats").show();
 }
 // $.getJSON(url_citybike)
@@ -148,26 +165,28 @@ function createStats(data,type) {
 //                 console.log('Unable to fetch data');
 //             });
 //     });
-$.getJSON(url_villeParis)
-    .done(function(data) {
-        var data = data.records;
-        var geojson = createGEOJSON(data,'villeParis');
-        createStats(data,'villeParis');
+
+// $.getJSON(url_villeParis)
+//     .done(function(data) {
+//         var data = data.records;
+//         var geojson = createGEOJSON(data,'villeParis');
+//         createStats(data,'villeParis');
+//         createMap(geojson);
+//         console.log('DATA FETCHED: VILLE DE PARIS');
+//     })
+//     .fail(function() {
+//         console.log('FETCHED FAILED ON VILLE DE PARIS');
+$.getJSON(url_citybike)
+    .done(function(data){
+        var data = data.network.stations;
+        createStats(data,'citybik');
+        var geojson = createGEOJSON(data,'citybik');
         createMap(geojson);
-        console.log('DATA FETCHED: VILLE DE PARIS');
     })
-    .fail(function() {
-        console.log('FETCHED FAILED ON VILLE DE PARIS');
-        $.getJSON(url_citybike)
-            .done(function(data){
-                var data = data.network.stations;
-                var geojson = createGEOJSON(data,'citybik');
-                createMap(geojson);
-            })
-            .fail(function(){
-                console.log('Unable to fetch data');
-            });
+    .fail(function(){
+        console.log('Unable to fetch data');
     });
+    // });
 
 $("#switchmap").hide();
 $("#closeMap").hide();
